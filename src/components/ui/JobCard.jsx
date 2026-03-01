@@ -1,5 +1,5 @@
 import { ExternalLink, Clock, Check } from "lucide-react";
-import { getSourceBadge, getTypeColor } from "../../utils/helpers";
+import { getRelativeTime, getSourceBadge, getTypeColor } from "../../utils/helpers";
 
 export default function JobCard({ job, isSaved, user, handleSaveJob }) {
   return (
@@ -20,7 +20,7 @@ export default function JobCard({ job, isSaved, user, handleSaveJob }) {
           </span>
           <div className="flex items-center text-slate-500 text-xs gap-1.5">
             <Clock className="w-3.5 h-3.5" />
-            <span>{job.created_at}</span>
+            <span>{getRelativeTime(job.created_at)}</span>
           </div>
         </div>
       </div>
