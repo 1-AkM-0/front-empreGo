@@ -1,3 +1,5 @@
+import { Check, X } from "lucide-react";
+
 export default function Toast({ toast }) {
   if (!toast) return null;
   return (
