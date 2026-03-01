@@ -1,4 +1,9 @@
-export const statusOptions = ["Aplicada", "Entrevista", "Aprovado", "Rejeitado"]
+export const statusOptions = {
+  "applied": "Aplicada",
+  "interview": "Entrevista",
+  "approved": "Aprovado",
+  "rejected": "Rejeitado"
+}
 
 export function getTypeColor(type) {
   switch (type) {
@@ -15,11 +20,45 @@ export function getSourceBadge(source) {
   return <span className="text-[10px] font-medium text-gray-400 bg-gray-500/10 px-2 py-1 rounded-md border border-gray-500/10">{source}</span>;
 }
 
-function getStatusColor(status) {
+export function getStatusColor(status) {
   switch (status) {
-    case "Aplicada": return "bg-blue-500/10 text-blue-400 border-blue-500/20";
-    case "Entrevista": return "bg-purple-500/10 text-purple-400 border-purple-500/20";
-    case "Aprovado": return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
-    case "Rejeitado": return "bg-red-500/10 text-red-400 border-red-500/20";
+    case "applied": return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+    case "interview": return "bg-purple-500/10 text-purple-400 border-purple-500/20";
+    case "approved": return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+    case "rejected": return "bg-red-500/10 text-red-400 border-red-500/20";
   }
+}
+
+export function getRelativeTime(time) {
+  const date = new Date(time + "Z")
+  let diffSeconds = Math.floor((new Date() - date) / 1000)
+  const rtf1 = new Intl.RelativeTimeFormat("pt", { numeric: "auto" });
+
+  if (diffSeconds < 60) {
+    return rtf1.format(-diffSeconds, "seconds")
+  }
+
+  if (diffSeconds < 60 * 60) {
+    let minutes = Math.round(diffSeconds / 60)
+    return rtf1.format(-minutes, "minutes")
+  }
+  if (diffSeconds < 60 * 60 * 24) {
+    let hora = Math.round(diffSeconds / (60 * 60))
+    return rtf1.format(-hora, "hours")
+  }
+
+  let dia = Math.round(diffSeconds / (60 * 60 * 24))
+  return rtf1.format(-dia, "day")
+}
+
+export function getBRTime(time) {
+  const date = new Date(time + "Z")
+  return date.toLocaleString()
+}
+
+export function getStatusName(status) {
+  if (status === "Aplicada ") return "applied"
+  if (status === "Entrevista") return "interview"
+  if (status === "Aprovado") return "approved"
+  if (status === "Rejeitado") return "rejected"
 }
