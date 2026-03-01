@@ -5,6 +5,7 @@ import DiscordBanner from './components/layout/DiscordBanner';
 import LoginView from './components/views/LoginView';
 import FeedView from './components/views/FeedView';
 import SavedJobsView from './components/views/SavedJobsView';
+const URL = import.meta.env.VITE_API_URL
 
 export default function App() {
   const [currentView, setCurrentView] = useState('feed');
@@ -15,7 +16,7 @@ export default function App() {
 
   useEffect(() => {
     async function fetchJobs() {
-      const res = await fetch("http://localhost:8080/v1/jobs/")
+      const res = await fetch(`${URL}/v1/jobs/`)
       const jobsResponse = await res.json()
       setJobs(jobsResponse);
     }
@@ -24,7 +25,7 @@ export default function App() {
 
   useEffect(() => {
     async function fetchUser() {
-      const res = await fetch("http://localhost:8080/v1/auth/me", {
+      const res = await fetch(`${URL}/v1/auth/me`, {
         credentials: "include"
       })
       const userResponse = await res.json()
@@ -36,7 +37,7 @@ export default function App() {
   useEffect(() => {
     async function fetchApplications() {
       if (user && currentView === "saved") {
-        const res = await fetch("http://localhost:8080/v1/applications/", { credentials: "include" })
+        const res = await fetch(`${URL}/v1/applications/`, { credentials: "include" })
         const applications = await res.json()
         setSavedJobs(applications);
       } else {
@@ -52,13 +53,13 @@ export default function App() {
   }
 
   function handleLogin() {
-    window.location.href = "http://localhost:8080/v1/auth/github";
+    window.location.href = `${URL}/v1/auth/github`;
     setCurrentView('feed');
     showToast("Login realizado com sucesso!");
   }
 
   async function handleLogout() {
-    await fetch("http://localhost:8080/v1/auth/logout", { method: "POST", credentials: "include" })
+    await fetch(`${URL}/v1/auth/logout`, { method: "POST", credentials: "include" })
     setUser(null);
     setCurrentView('feed');
     showToast("Você saiu da conta.");
@@ -74,7 +75,7 @@ export default function App() {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/v1/applications/", {
+      const res = await fetch(`${URL}/v1/applications/`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -107,7 +108,7 @@ export default function App() {
     ));
 
     try {
-      await fetch(`http://localhost:8080/v1/applications/${jobId}`, {
+      await fetch(`${URL}/v1/applications/${jobId}`, {
         method: "PATCH",
         credentials: "include",
         headers: {
