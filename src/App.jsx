@@ -36,7 +36,7 @@ export default function App() {
   useEffect(() => {
     async function fetchApplications() {
       if (user && currentView === "saved") {
-        const res = await fetch(`api/applications/`, { credentials: "include" })
+        const res = await fetch(`api/applications`, { credentials: "include" })
         const applications = await res.json()
         setSavedJobs(applications);
       } else {
