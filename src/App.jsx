@@ -15,7 +15,7 @@ export default function App() {
 
   useEffect(() => {
     async function fetchJobs() {
-      const res = await fetch(`api/jobs/`)
+      const res = await fetch(`api/jobs`)
       const jobsResponse = await res.json()
       setJobs(jobsResponse);
     }
@@ -74,7 +74,7 @@ export default function App() {
     }
 
     try {
-      const res = await fetch(`api/applications/`, {
+      const res = await fetch(`api/applications`, {
         method: "POST",
         credentials: "include",
         headers: {
