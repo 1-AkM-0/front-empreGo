@@ -10,6 +10,7 @@ export default function JobCard({ job, isSaved, user, handleSaveJob }) {
             <h3 className="text-lg font-bold text-slate-100 leading-tight mb-1 group-hover:text-emerald-400 transition-colors">
               {job.title}
             </h3>
+            <p className="text-slate-400 text-sm">{job.company}</p>
           </div>
           {getSourceBadge(job.source)}
         </div>
