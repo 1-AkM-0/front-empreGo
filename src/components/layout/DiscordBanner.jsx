@@ -1,6 +1,6 @@
 import { MessageSquare } from "lucide-react";
 export default function DiscordBanner() {
-  const serverLink = "https://discord.gg/kHHfVGBV"
+  const serverLink = "https://discord.gg/BHSjJvqaee"
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 mb-4">
       <div className="bg-linear-to-r from-[#1E1B4B] via-[#2E1065] to-[#4C1D95] border border-indigo-500/20 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-lg shadow-indigo-900/20">
