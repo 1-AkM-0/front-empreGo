@@ -1,7 +1,7 @@
 import { Bookmark, Check } from "lucide-react";
 import SavedJobCard from "../ui/SaveJobCard";
 
-export default function SavedJobsView({ savedJobs, handleStatusChange, setCurrentView }) {
+export default function SavedJobsView({ savedJobs, handleStatusChange, setCurrentView, page, setPage, metadata }) {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
       <div className="mb-8">
@@ -11,6 +11,7 @@ export default function SavedJobsView({ savedJobs, handleStatusChange, setCurren
         </div>
         <p className="text-slate-400 text-sm">Acompanhe as suas candidaturas e altere os status para se organizar.</p>
       </div>
+
       {savedJobs.length === 0 ? (
         <div className="text-center py-20 bg-[#131823] rounded-3xl border border-dashed border-slate-700/50">
           <div className="w-16 h-16 bg-slate-800/50 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -23,11 +24,37 @@ export default function SavedJobsView({ savedJobs, handleStatusChange, setCurren
           </button>
         </div>
       ) : (
-        <div className="grid gap-5">
-          {savedJobs.map(job => (
-            <SavedJobCard key={job.id} job={job} handleStatusChange={handleStatusChange} />
-          ))}
-        </div>
+        <>
+          <div className="grid gap-5">
+            {savedJobs.map(job => (
+              <SavedJobCard key={job.id} job={job} handleStatusChange={handleStatusChange} />
+            ))}
+          </div>
+
+          {metadata && metadata.last_page > 1 && (
+            <div className="flex items-center justify-center gap-3 mt-8">
+              <button
+                onClick={() => setPage(p => p - 1)}
+                disabled={page === metadata.first_page}
+                className="px-4 py-2 rounded-lg border border-slate-700 text-slate-400 text-sm disabled:opacity-30 hover:border-emerald-500 hover:text-emerald-400 transition-colors disabled:cursor-not-allowed"
+              >
+                ← Anterior
+              </button>
+
+              <span className="text-slate-500 text-sm">
+                {metadata.current_page} / {metadata.last_page}
+              </span>
+
+              <button
+                onClick={() => setPage(p => p + 1)}
+                disabled={page === metadata.last_page}
+                className="px-4 py-2 rounded-lg border border-slate-700 text-slate-400 text-sm disabled:opacity-30 hover:border-emerald-500 hover:text-emerald-400 transition-colors disabled:cursor-not-allowed"
+              >
+                Próxima →
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
