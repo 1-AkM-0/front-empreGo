@@ -12,15 +12,20 @@ export default function App() {
   const [jobs, setJobs] = useState([]);
   const [savedJobs, setSavedJobs] = useState([]);
   const [toast, setToast] = useState(null);
+  const [page, setPage] = useState(1);
+  const [metadata, setMetadata] = useState(null);
+  const [savedPage, setSavedPage] = useState(1);
+  const [savedMetadata, setSavedMetadata] = useState(null);
 
   useEffect(() => {
     async function fetchJobs() {
-      const res = await fetch(`api/jobs`)
-      const jobsResponse = await res.json()
-      setJobs(jobsResponse);
+      const res = await fetch(`api/jobs?page=${page}&page_size=6`)
+      const data = await res.json()
+      setJobs(data.jobs);
+      setMetadata(data.metadata)
     }
     fetchJobs()
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     async function fetchUser() {
@@ -36,15 +41,16 @@ export default function App() {
   useEffect(() => {
     async function fetchApplications() {
       if (user && currentView === "saved") {
-        const res = await fetch(`api/applications`, { credentials: "include" })
-        const applications = await res.json()
-        setSavedJobs(applications);
+        const res = await fetch(`api/applications?page=${savedPage}&page_size=6`, { credentials: "include" })
+        const data = await res.json()
+        setSavedJobs(data.applications);
+        setSavedMetadata(data.metadata)
       } else {
         setSavedJobs([]);
       }
     }
     fetchApplications()
-  }, [user, currentView]);
+  }, [user, currentView, savedPage]);
 
   function showToast(message, type = 'success') {
     setToast({ message, type });
@@ -87,9 +93,7 @@ export default function App() {
 
       if (res.ok) {
         const newSaved = await res.json()
-        const completeApplication = { job_title: job.title, job_status: "Aplicada", job_source: job.source, job_type: job.type, job_link: job.link, job_created_at: newSaved.created_at }
-
-        setSavedJobs([...savedJobs, completeApplication]);
+        setSavedJobs([...savedJobs, newSaved]);
         showToast("Vaga salva no seu painel!");
       } else {
         showToast("Erro ao salvar a vaga. Tente novamente.", "error");
@@ -99,7 +103,6 @@ export default function App() {
       showToast("Erro de conexão com o servidor.", "error");
     }
   }
-
   async function handleStatusChange(jobId, newStatus) {
 
     setSavedJobs(savedJobs.map(job =>
@@ -135,8 +138,8 @@ export default function App() {
       <Navbar currentView={currentView} setCurrentView={setCurrentView} user={user} handleLogout={handleLogout} />
       <DiscordBanner />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {currentView === 'feed' && <FeedView jobs={jobs} savedJobs={savedJobs} user={user} handleSaveJob={handleSaveJob} />}
-        {currentView === 'saved' && <SavedJobsView savedJobs={savedJobs} handleStatusChange={handleStatusChange} setCurrentView={setCurrentView} />}
+        {currentView === 'feed' && <FeedView jobs={jobs} savedJobs={savedJobs} user={user} handleSaveJob={handleSaveJob} page={page} setPage={setPage} metadata={metadata} />}
+        {currentView === 'saved' && <SavedJobsView savedJobs={savedJobs} handleStatusChange={handleStatusChange} setCurrentView={setCurrentView} page={savedPage} setPage={setSavedPage} metadata={savedMetadata} />}
       </main>
     </div>
   );
