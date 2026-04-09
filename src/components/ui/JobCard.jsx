@@ -1,7 +1,10 @@
 import { ExternalLink, Clock, Check } from "lucide-react";
 import { getRelativeTime, getSourceBadge, getTypeColor } from "../../utils/helpers";
 
-export default function JobCard({ job, isSaved, user, handleSaveJob }) {
+export default function JobCard({ job, user, handleSaveJob }) {
+
+  const isApplied = (user && job.applied === 1)
+
   return (
     <div className="bg-[#131823] rounded-2xl p-6 border border-slate-800/60 shadow-sm hover:border-slate-700 transition-colors flex flex-col justify-between group">
       <div>
@@ -30,8 +33,8 @@ export default function JobCard({ job, isSaved, user, handleSaveJob }) {
         <a href={job.link} target="_blank" rel="noreferrer" className="bg-[#1E2433] hover:bg-[#252C3D] text-slate-300 text-sm font-medium py-2 px-5 rounded-xl flex items-center justify-center gap-2 transition-colors border border-slate-700/50">
           <ExternalLink className="w-4 h-4" /> Link
         </a>
-        <button onClick={() => handleSaveJob(job)} disabled={isSaved && user} className={`px-5 py-2 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition-all flex-1 ${isSaved && user ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 cursor-not-allowed' : 'bg-transparent text-emerald-500 border-emerald-500/30 hover:bg-emerald-500/10'}`}>
-          {isSaved && user ? <><Check className="w-4 h-4" /> Aplicada</> : <><Check className="w-4 h-4" /> Aplicar</>}
+        <button onClick={() => handleSaveJob(job)} disabled={isApplied} className={`px-5 py-2 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition-all flex-1 ${isApplied ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 cursor-not-allowed' : 'bg-transparent text-emerald-500 border-emerald-500/30 hover:bg-emerald-500/10'}`}>
+          {isApplied ? <><Check className="w-4 h-4" /> Aplicada</> : <><Check className="w-4 h-4" /> Aplicar</>}
         </button>
       </div>
     </div>

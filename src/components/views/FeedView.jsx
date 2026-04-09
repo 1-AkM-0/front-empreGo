@@ -1,7 +1,7 @@
 import { Search } from "lucide-react";
 import JobCard from "../ui/JobCard";
 
-export default function FeedView({ jobs, savedJobs, user, handleSaveJob, page, setPage, metadata }) {
+export default function FeedView({ jobs, user, handleSaveJob, page, setPage, metadata }) {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
       <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -21,7 +21,7 @@ export default function FeedView({ jobs, savedJobs, user, handleSaveJob, page, s
 
       <div className="grid gap-5 md:grid-cols-2">
         {jobs.map(job => (
-          <JobCard key={job.id} job={job} isSaved={savedJobs.some(sj => sj.job_id === job.id)} user={user} handleSaveJob={handleSaveJob} />
+          <JobCard key={job.id} job={job} user={user} handleSaveJob={handleSaveJob} />
         ))}
       </div>
 
