@@ -29,7 +29,7 @@ export default function App() {
       <Navbar currentView={currentView} setCurrentView={setCurrentView} user={user} handleLogout={handleLogout} />
       <DiscordBanner />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {currentView === 'feed' && <FeedView jobs={jobs} savedJobs={savedJobs} user={user} handleSaveJob={handleSaveJob} page={page} setPage={setPage} metadata={metadata} />}
+        {currentView === 'feed' && <FeedView jobs={jobs} user={user} handleSaveJob={handleSaveJob} page={page} setPage={setPage} metadata={metadata} />}
         {currentView === 'saved' && <SavedJobsView savedJobs={savedJobs} handleStatusChange={handleStatusChange} setCurrentView={setCurrentView} page={savedPage} setPage={setSavedPage} metadata={savedMetadata} />}
       </main>
     </div>
